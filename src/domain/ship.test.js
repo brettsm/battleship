@@ -13,4 +13,15 @@ describe('ship class properties', () => {
     )('new Ship(%p) throws', (val) => {
         expect(() => new Ship(val)).toThrow();
     });
-})
+});
+
+describe('Ship.hit() method', () => {
+    test('hit method increments hits', () => {
+        const s = new Ship(2);
+        expect(s.hits).toEqual(0);
+        s.hit();
+        expect(s.hits).toEqual(1);
+        s.hit();
+        expect(s.hits).toEqual(2);
+    })
+});

@@ -44,8 +44,11 @@ describe('gameboard methods', () => {
 
     let gb2 = new Gameboard();
     let long = new Ship(4);
-
+    let long2 = new Ship(4);
     test('throws out of bounds', () => {
         expect(() => gb2.place(long, { x: 8, y: 0 }, 'h')).toThrow();
+        expect(() => gb2.place(long2, { x: 0, y: 8 }, 'v')).toThrow();
+        expect(() => gb2.place(new Ship(), { x: -1, y: 0}, 'v')).toThrow();
+        expect(() => gb2.place(new Ship(), { x: 0, y: -1}, 'v')).toThrow();
     })
 });

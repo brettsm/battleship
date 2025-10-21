@@ -13,6 +13,9 @@ describe('gameboard properties', () => {
 
 });
 
+// TODO: test to make sure you can't add the same piece twice maybe?
+
+
 describe('gameboard methods', () => {
     let gb = new Gameboard();
     let s = new Ship(2);
@@ -26,4 +29,11 @@ describe('gameboard methods', () => {
     ])('can place a ship across a horizontal length', (x, y, bool) => {
         expect(gb.isOccupied({x: x, y: y})).toBe(bool);
     });
+
+    let gb2 = new Gameboard();
+    let long = new Ship(4);
+
+    test('throws out of bounds', () => {
+        expect(() => gb2.place(long, { x: 8, y: 0 }, 'h')).toThrow();
+    })
 });

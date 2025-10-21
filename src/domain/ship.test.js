@@ -15,13 +15,26 @@ describe('ship class properties', () => {
     });
 });
 
-describe('Ship.hit() method', () => {
-    test('hit method increments hits', () => {
+describe('Ship.hit() and sink()', () => {
+    test('hit and sink work as expected', () => {
         const s = new Ship(2);
         expect(s.hits).toEqual(0);
         s.hit();
         expect(s.hits).toEqual(1);
+
+        expect(s.isSunk()).toBe(false);
+
         s.hit();
         expect(s.hits).toEqual(2);
+
+        expect(s.isSunk()).toBe(true);
+
+    });
+
+    test('extra hits after sinking don\'t increase hits', () => {
+        const s = new Ship(1);
+        s.hit();
+        s.hit();
+        expect(s.hits).toEqual(1);
     })
 });

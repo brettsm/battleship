@@ -1,0 +1,1 @@
+export const key = ({ x, y }) => x*10 + y;

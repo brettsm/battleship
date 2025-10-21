@@ -14,11 +14,16 @@ describe('gameboard properties', () => {
 });
 
 describe('gameboard methods', () => {
-    test('can place ship without error when valid', () => {
-        let gb = new Gameboard();
-        let s = new Ship(2);
-        gb.place(s, { x: 0, y: 0 }, 'h');
-        expect(gb.isOccupied({ x: 0, y: 0 })).toBe(true);
-        expect(gb.isOccupied({ x: 1, y: 2 })).toBe(false);
+    let gb = new Gameboard();
+    let s = new Ship(2);
+    gb.place(s, { x: 0, y: 0 }, 'h');
+
+    test.each([
+        [0, 0, true],
+        [1, 2, false],
+        [1, 0, true],
+        [2, 0, false]
+    ])('can place a ship across a horizontal length', (x, y, bool) => {
+        expect(gb.isOccupied({x: x, y: y})).toBe(bool);
     });
 });

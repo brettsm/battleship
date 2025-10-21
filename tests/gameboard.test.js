@@ -30,6 +30,18 @@ describe('gameboard methods', () => {
         expect(gb.isOccupied({x: x, y: y})).toBe(bool);
     });
 
+    let vgb = new Gameboard();
+    let vs = new Ship(2);
+    vgb.place(vs, { x: 0, y: 0 }, 'v');
+    test.each([
+        [0, 0, true],
+        [0, 1, true],
+        [1, 0, false],
+        [0, 2, false]
+    ])('can place a ship vertically', (x, y, bool) => {
+        expect(vgb.isOccupied({x: x, y: y})).toBe(bool);
+    });
+
     let gb2 = new Gameboard();
     let long = new Ship(4);
 

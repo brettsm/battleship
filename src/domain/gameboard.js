@@ -14,6 +14,10 @@ export class Gameboard {
         if (anyOutOfBounds(cells, this.size))
             throw new Error('Out of bounds');
 
+        // TODO: throw on overlapping
+        if (this.anyOverlapping(cells))
+            throw new Error('Overlapping');
+        
         for (const { x, y } of cells) {
             const k = key({ x, y });
             this.#placed.set(k, ship);
@@ -22,6 +26,16 @@ export class Gameboard {
 
     isOccupied({ x, y }) {
         return this.#placed.has(key({ x: x, y: y }));
+    }
+
+    anyOverlapping(cells) {
+        if (this.#placed.size === 0) return false;
+
+        for ( const { x, y } of cells ) {
+            if (this.isOccupied({ x: x, y: y })) return true;
+        }
+
+        return false;
     }
 
     get placed() {

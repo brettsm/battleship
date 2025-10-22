@@ -69,6 +69,14 @@ describe('gameboard methods', () => {
         expect(() => overlapGb.place(new Ship(2), { x: 5, y: 5 }, 'v')).not.toThrow();
     });
 
+    test('throws when adding same ship twice', () => {
+        const sameShip = new Ship(1);
+        const gameb = new Gameboard();
+
+        gameb.place(sameShip, { x: 0, y: 0 });
+        expect(() => gameb.place(sameShip, { x: 5, y: 5 })).toThrow();
+    })
+
     describe('attack module', () => {
         test('receiveAttack increases ship\'s hits count', () => {
             const gb = new Gameboard();

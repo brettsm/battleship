@@ -30,6 +30,14 @@ describe('gameboard methods', () => {
         expect(gb.isOccupied({x: x, y: y})).toBe(bool);
     });
 
+    const game = new Gameboard();
+    game.place(new Ship(2), { x: 0, y: 0 });
+    test('placed horizontal if not specified', () => {
+        expect(gb.isOccupied({ x: 1, y: 0 })).toBe(true);
+        expect(gb.isOccupied({ x: 0, y: 0 })).toBe(true);
+        expect(gb.isOccupied({ x: 0, y: 1 })).toBe(false);
+    });
+
     let vgb = new Gameboard();
     let vs = new Ship(2);
     vgb.place(vs, { x: 0, y: 0 }, 'v');
@@ -48,7 +56,18 @@ describe('gameboard methods', () => {
     test('throws out of bounds', () => {
         expect(() => gb2.place(long, { x: 8, y: 0 }, 'h')).toThrow();
         expect(() => gb2.place(long2, { x: 0, y: 8 }, 'v')).toThrow();
-        expect(() => gb2.place(new Ship(), { x: -1, y: 0}, 'v')).toThrow();
-        expect(() => gb2.place(new Ship(), { x: 0, y: -1}, 'v')).toThrow();
-    })
+        expect(() => gb2.place(new Ship(2), { x: -1, y: 0}, 'v')).toThrow();
+        expect(() => gb2.place(new Ship(2), { x: 0, y: -1}, 'v')).toThrow();
+    });
+
+    const overlapGb = new Gameboard();
+    const ship1 = new Ship(2);
+    const ship2 = new Ship(2);
+    overlapGb.place(ship1, { x: 0, y: 0 }, 'h');
+    test('throws on overlap', () => {
+        expect(() => overlapGb.place(ship2, { x: 1, y: 0 }, 'v')).toThrow();
+        expect(() => overlapGb.place(new Ship(2), { x: 5, y: 5 }, 'v')).not.toThrow();
+    });
+
+    
 });

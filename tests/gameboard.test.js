@@ -101,6 +101,11 @@ describe('gameboard methods', () => {
             gb.place(new Ship(1), { x: 1, y: 1 });
             expect(gb.allSunk()).toBe(false);
         });
+
+        test('throws when coords oob' , () => {
+            const gb = new Gameboard();
+            expect(() => gb.receiveAttack({ x: -1, y: -1 })).toThrow();
+        })
     });
 
 

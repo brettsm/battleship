@@ -60,7 +60,11 @@ export class Gameboard {
     }
 
     allSunk() {
-        
+        for (const ship of this.#ships) {
+            if(!ship.isSunk()) return false;
+        }
+
+        return true;
     }
 
     get placed() {

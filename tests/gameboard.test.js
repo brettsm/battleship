@@ -69,5 +69,22 @@ describe('gameboard methods', () => {
         expect(() => overlapGb.place(new Ship(2), { x: 5, y: 5 }, 'v')).not.toThrow();
     });
 
-    
+    describe('attack module', () => {
+        test('receiveAttack increases ship\'s hits count', () => {
+            const gb = new Gameboard();
+            const hitShip = new Ship(2);
+            gb.place(hitShip, { x: 0, y: 0 }, 'h');
+            gb.receiveAttack({ x: 0, y: 0 });
+            expect(hitShip.hits).toEqual(1);
+            expect(gb.isHit({ x: 0, y: 0 })).toBe(true);
+        });
+
+        test('records misses', () => {
+            const gb = new Gameboard();
+            gb.receiveAttack({ x: 1, y: 1 } );
+            expect(gb.isMissed({ x: 1, y: 1 })).toBe(true);
+        });
+    });
+
+
 });

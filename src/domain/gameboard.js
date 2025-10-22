@@ -1,4 +1,4 @@
-import { key, cellsFor, anyOutOfBounds } from "./helpers/gameboardHelpers.js";
+import { key, cellsFor, anyOutOfBounds, inBounds } from "./helpers/gameboardHelpers.js";
 
 // 10x10 board
 export class Gameboard {
@@ -31,6 +31,10 @@ export class Gameboard {
     }
 
     receiveAttack({ x, y }) {
+        if (!inBounds({ x: x, y: y }, this.size)) {
+            throw new Error('Attack is out of bounds');
+        }
+
         if (this.isOccupied({ x: x, y: y })) {
             this.#placed.get(key({ x: x, y: y })).hit();
             this.#hits.add(key({ x: x, y: y }));

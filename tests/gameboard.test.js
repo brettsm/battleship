@@ -90,6 +90,8 @@ describe('gameboard methods', () => {
             gb.place(new Ship(1), { x: 0, y: 0 });
             gb.receiveAttack({ x: 0, y: 0 });
             expect(gb.allSunk()).toBe(true);
+            gb.place(new Ship(1), { x: 1, y: 1 });
+            expect(gb.allSunk()).toBe(false);
         });
     });
 

@@ -1,4 +1,4 @@
-export const key = ({ x, y }) => x*10 + y;
+export const key = ({ x, y }) => `${x},${y}`;
 
 export const cellsFor = (length, { x, y }, dir) => {
     return Array.from({ length }, (_, i) => 

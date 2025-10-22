@@ -21,6 +21,8 @@ export class Gameboard {
         if (this.anyOverlapping(cells))
             throw new Error('Overlapping');
 
+        if (this.#ships.has(ship)) throw new Error('Ship already placed!');
+
         for (const { x, y } of cells) {
             const k = key({ x, y });
             this.#placed.set(k, ship);

@@ -5,6 +5,8 @@ export class Gameboard {
     #placed = new Map();
     #hits = new Set();
     #misses = new Set();
+    #ships = new Set();
+
     constructor (size = 10) {
         this.size = size;
     }
@@ -22,6 +24,7 @@ export class Gameboard {
         for (const { x, y } of cells) {
             const k = key({ x, y });
             this.#placed.set(k, ship);
+            this.#ships.add(ship);
         }
     }
 
@@ -54,6 +57,10 @@ export class Gameboard {
         }
 
         return false;
+    }
+
+    allSunk() {
+        
     }
 
     get placed() {

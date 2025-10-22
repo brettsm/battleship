@@ -81,8 +81,15 @@ describe('gameboard methods', () => {
 
         test('records misses', () => {
             const gb = new Gameboard();
-            gb.receiveAttack({ x: 1, y: 1 } );
+            gb.receiveAttack({ x: 1, y: 1 });
             expect(gb.isMissed({ x: 1, y: 1 })).toBe(true);
+        });
+
+        test('tells when all are sunk', () => {
+            const gb = new Gameboard();
+            gb.place(new Ship(1), { x: 0, y: 0 });
+            gb.receiveAttack({ x: 0, y: 0 });
+            expect(gb.allSunk()).toBe(true);
         });
     });
 

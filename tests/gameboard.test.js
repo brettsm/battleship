@@ -105,8 +105,24 @@ describe('gameboard methods', () => {
         test('throws when coords oob' , () => {
             const gb = new Gameboard();
             expect(() => gb.receiveAttack({ x: -1, y: -1 })).toThrow();
-        })
+        });
+
+        
     });
 
+    describe('misses', () => {
+        test('getMisses works', () => {
+            const gb = new Gameboard();
+            expect(gb.getMisses()).toStrictEqual([]);
 
+            gb.receiveAttack({ x: 1, y: 2 });
+            expect(gb.getMisses()).toStrictEqual([{x: 1, y: 2 }]);
+
+            gb.receiveAttack({ x: 1, y: 3 });
+            expect(gb.getMisses()).toStrictEqual([
+                { x: 1, y: 2 },
+                { x: 1, y: 3 }
+            ])
+        });
+    });
 });

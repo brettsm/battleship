@@ -1,4 +1,3 @@
-import { Gameboard } from "./gameboard";
 export class Player {
     #name;
     #board;

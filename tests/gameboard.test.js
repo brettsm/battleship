@@ -13,8 +13,6 @@ describe('gameboard properties', () => {
 
 });
 
-// TODO: test to make sure you can't add the same piece twice maybe?
-
 
 describe('gameboard methods', () => {
     let gb = new Gameboard();
@@ -122,7 +120,7 @@ describe('gameboard methods', () => {
             expect(gb.getMisses()).toStrictEqual([
                 { x: 1, y: 2 },
                 { x: 1, y: 3 }
-            ])
+            ]);
         });
     });
 });

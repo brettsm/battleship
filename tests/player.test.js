@@ -13,7 +13,13 @@ describe('player module', () => {
         expect(NPC.isComputer()).toBe(true);
     });
 
-    // TODO: test: throws when invalid type
+    test.each([
+        7,
+        null,
+        Number.NaN,
+    ])('new Player(new Gameboard(), %p) expected to throw',(name) => {
+        expect(() => new Player(new Gameboard(), name)).toThrow();
+    });
 
     test('players have gameboards', () => {
         const board = { receiveAttack: jest.fn() };

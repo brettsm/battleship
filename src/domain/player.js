@@ -3,7 +3,11 @@ import { Gameboard } from './gameboard.js';
 export class Player {
     #name;
     #board;
+
     constructor(board, name = 'Computer') {
+        if (typeof(name) !== 'string')
+            throw new TypeError('Player.name expects a string');
+
         this.#name = name;
         this.#board = board;
     }
@@ -15,5 +19,4 @@ export class Player {
     receiveAttack({ x, y }) {
         this.#board.receiveAttack({ x: x, y: y });
     }
-
 }

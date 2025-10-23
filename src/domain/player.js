@@ -20,4 +20,8 @@ export class Player {
     receiveAttack({ x, y }) {
         this.#board.receiveAttack({ x: x, y: y });
     }
+
+    getOpponentMisses() {
+        return [...this.#board.getMisses()];
+    }
 }

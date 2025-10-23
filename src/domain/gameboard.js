@@ -1,4 +1,4 @@
-import { key, cellsFor, anyOutOfBounds, inBounds } from "./helpers/gameboardHelpers.js";
+import { key, cellsFor, anyOutOfBounds, inBounds, unkey } from "./helpers/gameboardHelpers.js";
 
 // 10x10 board
 export class Gameboard {
@@ -71,6 +71,10 @@ export class Gameboard {
         }
 
         return true;
+    }
+
+    getMisses() {
+        return [...this.#misses].map(unkey);
     }
 
     get placed() {

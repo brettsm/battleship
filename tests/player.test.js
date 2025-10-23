@@ -2,7 +2,7 @@ import { Player } from '../src/domain/player.js';
 import { Gameboard } from '../src/domain/gameboard.js';
 describe('player module', () => {
     test('can create new player', () => {
-        let human = new Player();
+        let human = new Player(new Gameboard(), 'Human');
         expect(human).toBeDefined();
     });
 
@@ -28,5 +28,10 @@ describe('player module', () => {
         human.receiveAttack({ x: 3, y: 5 });
 
         expect(board.receiveAttack).toHaveBeenCalledWith({ x: 3, y: 5 });
-    })
+    });
+
+    test('require gameboards', () => {
+        expect(() => new Player(null, 'Human')).toThrow();
+        expect(() => new Player(new Player(), 'Human')).toThrow();
+    });
 });

@@ -25,4 +25,8 @@ export class Player {
         this.#board.place(ship, { x: x, y: y }, dir);
     }
 
+    allSunk() {
+        return this.#board.allSunk();
+    }
+
 }

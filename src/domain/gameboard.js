@@ -112,7 +112,7 @@ export class Gameboard {
 
     randomizeFleet({ catalog = SHIP_TYPES, rng = Math.random } = {}) {
         this.clear();
-        for (const { id, length } of catalog ) {
+        for (const { id } of catalog ) {
             let placed = false;
             let attempts = 0;
             while (!placed && attempts++ < 500) {

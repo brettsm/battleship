@@ -1,6 +1,8 @@
 export class Ship {
     #hits = 0;
 
+    // TODO: implement ship types for battleship (aircraft carrier: length 5, cruiser: length 3, etc.)
+
     constructor(length) {
         if (typeof(length) !== 'number')
             throw new TypeError('Ship.length expects a number');

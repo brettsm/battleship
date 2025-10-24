@@ -1,13 +1,11 @@
 import { Ship } from '../src/domain/ship.js';
+import { SHIP_TYPES } from '../src/domain/config/ships.js';
 
 describe('ship class properties', () => {
-    test('creates a ship with length', () => {
-        const s = new Ship(3);
-        expect(s.length).toEqual(3);
-        const s2 = new Ship(5);
-        expect(s2.length).toEqual(5);
+    test('creates a certain type of ship', () => {
+        let ac = new Ship('aircraft-carrier');
+        expect(ac.type).toBe(SHIP_TYPES[0]);
     });
-
     test.each(
         [null, -1, 'h', Number.NaN, undefined]
     )('new Ship(%p) throws', (val) => {
@@ -17,7 +15,7 @@ describe('ship class properties', () => {
 
 describe('Ship.hit() and sink()', () => {
     test('hit and sink work as expected', () => {
-        const s = new Ship(2);
+        const s = new Ship('submarine');
         expect(s.hits).toEqual(0);
         s.hit();
         expect(s.hits).toEqual(1);
@@ -32,9 +30,10 @@ describe('Ship.hit() and sink()', () => {
     });
 
     test('extra hits after sinking don\'t increase hits', () => {
-        const s = new Ship(1);
+        const s = new Ship('submarine');
         s.hit();
         s.hit();
-        expect(s.hits).toEqual(1);
-    })
+        s.hit();
+        expect(s.hits).toEqual(2);
+    });
 });

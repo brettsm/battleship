@@ -6,7 +6,7 @@ export const SHIP_TYPES = Object.freeze([
     {   id: 'destroyer',            name: 'Destroyer',          length: 2 }
 ]);
 
-export const SHIP_BY_ID = Object.freeze([
+export const SHIP_BY_ID = Object.freeze(
     Object.fromEntries(SHIP_TYPES.map((piece) => [piece.id, piece]))
-]);
+);
    

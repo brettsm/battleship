@@ -1,5 +1,6 @@
 import { Player } from "../domain/player.js";
 import { UserInterface } from "../ui/ui.js";
+import { Gameboard } from "../domain/gameboard.js";
 
 export class GameController {
     #userPlayer
@@ -10,15 +11,18 @@ export class GameController {
     }
 
     init() {
-        this.ui.renderForm((playerName) => {
-            this.#userPlayer = new Player(playerName);
-            this.#computerPlayer = new Player();
+        this.ui.renderStartForm((playerName) => {
+            this.#userPlayer = new Player(new Gameboard(), playerName);
+            this.#computerPlayer = new Player(new Gameboard(), 'Computer');
 
-            this._startGame(this.#userPlayer, this.#computerPlayer);
-        })
+            const humanStarts = this._flipCoin();
+            
+            console.log(humanStarts);
+            // TODO: figure out how to render coin flip and flow to start the game etc.
+        });
     }
 
-    _startGame(player1, player2) {
-        
+    _flipCoin() {
+        return this.rng() < 0.5;
     }
 }

@@ -29,4 +29,8 @@ export class Player {
         return this.#board.allSunk();
     }
 
+    randomizeFleet() {
+        this.#board.randomizeFleet();
+    }
+
 }

@@ -1,4 +1,6 @@
 import { key, cellsFor, anyOutOfBounds, inBounds, unkey } from "./helpers/gameboardHelpers.js";
+import { Ship } from "./ship.js";
+import { SHIP_TYPES } from "./config/ships.js";
 
 // 10x10 board
 export class Gameboard {
@@ -13,7 +15,7 @@ export class Gameboard {
 
     // h for horizontal v for vertical
     place(ship, { x, y }, dir = 'h') {
-        let cells = cellsFor(ship.length, {x: x, y: y }, dir);
+        let cells = cellsFor(ship.length, { x: x, y: y }, dir);
 
         if (anyOutOfBounds(cells, this.size))
             throw new Error('Out of bounds');
@@ -25,9 +27,24 @@ export class Gameboard {
 
         for (const { x, y } of cells) {
             const k = key({ x, y });
-            this.#placed.set(k, ship);
-            this.#ships.add(ship);
+            this.#placed.set(k, ship); 
         }
+        this.#ships.add(ship);
+    }
+
+    canPlace(ship, { x, y }, dir = 'h') {
+        let cells = cellsFor(ship.length, { x: x, y: y }, dir);
+
+        if (anyOutOfBounds(cells, this.size))
+            return false;
+
+        else if (this.anyOverlapping(cells))
+            return false;
+
+        else if (this.#ships.has(ship))
+            return false;
+        else
+            return true;
     }
 
     receiveAttack({ x, y }) {
@@ -81,9 +98,36 @@ export class Gameboard {
         return [...this.#hits].map(unkey);
     }
 
+    clear() {
+    this.#placed.clear();
+    this.#hits.clear();
+    this.#misses.clear();
+    this.#ships.clear();
+    return this;
+}
+
     get placed() {
         return this.#placed;
     }
 
-    
+    randomizeFleet({ catalog = SHIP_TYPES, rng = Math.random } = {}) {
+        this.clear();
+        for (const { id, length } of catalog ) {
+            let placed = false;
+            let attempts = 0;
+            while (!placed && attempts++ < 500) {
+                const orientation = rng() < 0.5 ? 'h' : 'v';
+                const start = {
+                    x: Math.floor(rng() * this.size),
+                    y: Math.floor(rng() * this.size)
+                };
+                let ship = new Ship(id);
+                if (this.canPlace(ship, start, orientation)) {
+                    this.place(ship, start, orientation);
+                    placed = true;
+                }
+            }
+            if (!placed) throw new Error(`Failed to place ${id} after ${attempts} tries`);
+        }
+    }
 }

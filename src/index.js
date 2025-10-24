@@ -1,10 +1,7 @@
-import { UserInterface } from './ui/ui.js';
+import { GameController } from "./app/gameController.js";
 
-const app = document.getElementById('app');
+const appRoot = document.getElementById('app');
 
-const ui = new UserInterface(app);
-
-ui.renderStartForm((playerName) => {
-    console.log(playerName);
-});
+const game = new GameController(appRoot);
+game.init();
 

@@ -1,6 +1,7 @@
 import { Player } from "../domain/player.js";
 import { UserInterface } from "../ui/ui.js";
 import { Gameboard } from "../domain/gameboard.js";
+import { SHIP_TYPES } from "../domain/config/ships.js";
 
 export class GameController {
     #userPlayer
@@ -27,6 +28,11 @@ export class GameController {
             this.ui.renderCoinFlipResult({ message: message, onDone: () => this._startGame() });
 
             this._startGame();
+
+            //TODO: refactor like this:
+            //      1. set user player
+            //      2. set computer player
+            //      3. this._placeHumanFleet();
         });
     }
 

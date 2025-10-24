@@ -40,7 +40,7 @@ describe('player module', () => {
     test('player can add ships to its board', () => {
         const gameboard = new Gameboard();
         const player = new Player(gameboard, 'user');
-        const ship = new Ship(2);
+        const ship = new Ship('destroyer');
         expect(() => player.placeShip(ship , { x: 0, y: 0 }, 'h')).not.toThrow();
         expect(gameboard.isOccupied({ x: 0, y: 0 })).toBe(true);
         expect(gameboard.isOccupied({ x: 1, y: 0 })).toBe(true);
@@ -52,7 +52,7 @@ describe('player module', () => {
         const player = new Player(gameboard, 'user');
         expect(gameboard.allSunk()).toBe(true);
 
-        const ship = new Ship(2);
+        const ship = new Ship('destroyer');
         player.placeShip(ship, { x: 0, y: 0 }, 'h');
         expect(gameboard.allSunk()).toBe(false);
     });

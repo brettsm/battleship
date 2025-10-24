@@ -15,7 +15,7 @@ describe('ship class properties', () => {
 
 describe('Ship.hit() and sink()', () => {
     test('hit and sink work as expected', () => {
-        const s = new Ship('submarine');
+        const s = new Ship('destroyer');
         expect(s.hits).toEqual(0);
         s.hit();
         expect(s.hits).toEqual(1);
@@ -30,7 +30,7 @@ describe('Ship.hit() and sink()', () => {
     });
 
     test('extra hits after sinking don\'t increase hits', () => {
-        const s = new Ship('submarine');
+        const s = new Ship('destroyer');
         s.hit();
         s.hit();
         s.hit();

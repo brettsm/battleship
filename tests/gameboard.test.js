@@ -16,7 +16,7 @@ describe('gameboard properties', () => {
 
 describe('gameboard methods', () => {
     let gb = new Gameboard();
-    let s = new Ship(2);
+    let s = new Ship('destroyer');
     gb.place(s, { x: 0, y: 0 }, 'h');
 
     test.each([
@@ -29,7 +29,7 @@ describe('gameboard methods', () => {
     });
 
     const game = new Gameboard();
-    game.place(new Ship(2), { x: 0, y: 0 });
+    game.place(new Ship('submarine'), { x: 0, y: 0 });
     test('placed horizontal if not specified', () => {
         expect(gb.isOccupied({ x: 1, y: 0 })).toBe(true);
         expect(gb.isOccupied({ x: 0, y: 0 })).toBe(true);
@@ -37,7 +37,7 @@ describe('gameboard methods', () => {
     });
 
     let vgb = new Gameboard();
-    let vs = new Ship(2);
+    let vs = new Ship('destroyer');
     vgb.place(vs, { x: 0, y: 0 }, 'v');
     test.each([
         [0, 0, true],
@@ -45,30 +45,30 @@ describe('gameboard methods', () => {
         [1, 0, false],
         [0, 2, false]
     ])('can place a ship vertically', (x, y, bool) => {
-        expect(vgb.isOccupied({x: x, y: y})).toBe(bool);
+        expect(vgb.isOccupied({ x: x, y: y })).toBe(bool);
     });
 
     let gb2 = new Gameboard();
-    let long = new Ship(4);
-    let long2 = new Ship(4);
+    let long = new Ship('aircraft-carrier');
+    let long2 = new Ship('battleship');
     test('throws out of bounds', () => {
         expect(() => gb2.place(long, { x: 8, y: 0 }, 'h')).toThrow();
         expect(() => gb2.place(long2, { x: 0, y: 8 }, 'v')).toThrow();
-        expect(() => gb2.place(new Ship(2), { x: -1, y: 0}, 'v')).toThrow();
-        expect(() => gb2.place(new Ship(2), { x: 0, y: -1}, 'v')).toThrow();
+        expect(() => gb2.place(new Ship('submarine'), { x: -1, y: 0}, 'v')).toThrow();
+        expect(() => gb2.place(new Ship('destroyer'), { x: 0, y: -1}, 'v')).toThrow();
     });
 
     const overlapGb = new Gameboard();
-    const ship1 = new Ship(2);
-    const ship2 = new Ship(2);
+    const ship1 = new Ship('destroyer');
+    const ship2 = new Ship('submarine');
     overlapGb.place(ship1, { x: 0, y: 0 }, 'h');
     test('throws on overlap', () => {
         expect(() => overlapGb.place(ship2, { x: 1, y: 0 }, 'v')).toThrow();
-        expect(() => overlapGb.place(new Ship(2), { x: 5, y: 5 }, 'v')).not.toThrow();
+        expect(() => overlapGb.place(new Ship('destroyer'), { x: 5, y: 5 }, 'v')).not.toThrow();
     });
 
     test('throws when adding same ship twice', () => {
-        const sameShip = new Ship(1);
+        const sameShip = new Ship('submarine');
         const gameb = new Gameboard();
 
         gameb.place(sameShip, { x: 0, y: 0 });
@@ -78,7 +78,7 @@ describe('gameboard methods', () => {
     describe('attack module', () => {
         test('receiveAttack increases ship\'s hits count', () => {
             const gb = new Gameboard();
-            const hitShip = new Ship(2);
+            const hitShip = new Ship('destroyer');
             gb.place(hitShip, { x: 0, y: 0 }, 'h');
             gb.receiveAttack({ x: 0, y: 0 });
             expect(hitShip.hits).toEqual(1);
@@ -93,10 +93,11 @@ describe('gameboard methods', () => {
 
         test('tells when all are sunk', () => {
             const gb = new Gameboard();
-            gb.place(new Ship(1), { x: 0, y: 0 });
+            gb.place(new Ship('destroyer'), { x: 0, y: 0 });
             gb.receiveAttack({ x: 0, y: 0 });
+            gb.receiveAttack({ x: 1, y: 0 });
             expect(gb.allSunk()).toBe(true);
-            gb.place(new Ship(1), { x: 1, y: 1 });
+            gb.place(new Ship('submarine'), { x: 1, y: 1 });
             expect(gb.allSunk()).toBe(false);
         });
 
@@ -107,7 +108,7 @@ describe('gameboard methods', () => {
 
         test('gets hits', () => {
             const gb = new Gameboard();
-            gb.place(new Ship(3), { x: 0, y: 0 }, 'h');
+            gb.place(new Ship('submarine'), { x: 0, y: 0 }, 'h');
             expect(gb.getHits()).toStrictEqual([]);
             gb.receiveAttack({ x: 0, y: 0 });
             gb.receiveAttack({ x: 1, y: 0 });
@@ -133,4 +134,10 @@ describe('gameboard methods', () => {
             ]);
         });
     });
+
+    // describe('randomize fleet tests', () => {
+    //     const gb = new Gameboard();
+    //     expect(gb.randomizeFleet()).not.toThrow();
+        
+    // });
 });

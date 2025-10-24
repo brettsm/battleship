@@ -105,7 +105,17 @@ describe('gameboard methods', () => {
             expect(() => gb.receiveAttack({ x: -1, y: -1 })).toThrow();
         });
 
-        
+        test('gets hits', () => {
+            const gb = new Gameboard();
+            gb.place(new Ship(3), { x: 0, y: 0 }, 'h');
+            expect(gb.getHits()).toStrictEqual([]);
+            gb.receiveAttack({ x: 0, y: 0 });
+            gb.receiveAttack({ x: 1, y: 0 });
+            expect(gb.getHits()).toStrictEqual([
+                { x: 0, y: 0 },
+                { x: 1, y: 0 },
+            ]);
+        });
     });
 
     describe('misses', () => {

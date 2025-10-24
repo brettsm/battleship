@@ -38,7 +38,6 @@ export class GameController {
         this.#state = 'inPlay';
         // TODO: now we need to choose the ships
         this.#computerPlayer.randomizeFleet();
-        console.log(this.#computerPlayer.board.placed)
     }
 
     _gameIsOver() {

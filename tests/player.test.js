@@ -1,5 +1,7 @@
 import { Player } from '../src/domain/player.js';
 import { Gameboard } from '../src/domain/gameboard.js';
+import { Ship } from '../src/domain/ship.js'
+
 describe('player module', () => {
     test('can create new player', () => {
         let human = new Player(new Gameboard(), 'Human');
@@ -35,4 +37,13 @@ describe('player module', () => {
         expect(() => new Player(new Player(), 'Human')).toThrow();
     });
 
+    test('player can add ships to its board', () => {
+        const gameboard = new Gameboard();
+        const player = new Player(gameboard, 'user');
+        const ship = new Ship(2);
+        expect(() => player.placeShip(ship , { x: 0, y: 0 }, 'h')).not.toThrow();
+        expect(gameboard.isOccupied({ x: 0, y: 0 })).toBe(true);
+        expect(gameboard.isOccupied({ x: 1, y: 0 })).toBe(true);
+        expect(() => player.placeShip(ship, {x: -1, y: 0})).toThrow();
+    })
 });

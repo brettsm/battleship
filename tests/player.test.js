@@ -45,5 +45,15 @@ describe('player module', () => {
         expect(gameboard.isOccupied({ x: 0, y: 0 })).toBe(true);
         expect(gameboard.isOccupied({ x: 1, y: 0 })).toBe(true);
         expect(() => player.placeShip(ship, {x: -1, y: 0})).toThrow();
-    })
+    });
+
+    test('player can tell when all ships are sunk', () => {
+        const gameboard = new Gameboard();
+        const player = new Player(gameboard, 'user');
+        expect(gameboard.allSunk()).toBe(true);
+
+        const ship = new Ship(2);
+        player.placeShip(ship, { x: 0, y: 0 }, 'h');
+        expect(gameboard.allSunk()).toBe(false);
+    });
 });

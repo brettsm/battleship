@@ -77,6 +77,10 @@ export class Gameboard {
         return [...this.#misses].map(unkey);
     }
 
+    getHits() {
+        return [...this.#hits].map(unkey);
+    }
+
     get placed() {
         return this.#placed;
     }

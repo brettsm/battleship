@@ -3,7 +3,40 @@ export class UserInterface {
         this.appRoot = appRoot;
     }
 
-    _buildStartForm(cb) {
+
+    
+    renderStartForm(cb) {
+        const form = this._buildStartForm();
+        this._attachStartFormEvents(form, cb);
+        this.appRoot.replaceChildren(form);
+    }
+
+    renderGameView(humanStarts) {
+        const view = _buildGameView(humanStarts);
+        this.appRoot.replaceChildren(view);
+    }
+
+    renderCoinFlipResult({ message, onDone }) {
+        this.appRoot.textContent = message;
+        setTimeout(onDone, 1000);
+    }
+
+    _buildGameView(humanStarts) {
+
+    }
+
+    _attachStartFormEvents(form, cb) {
+        const input = form.querySelector('#player1');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const playerName = input.value.trim();
+
+            if (playerName) cb(playerName);
+        });
+    }
+
+    
+    _buildStartForm() {
         const form = document.createElement('form');
         form.id = 'start-form';
         
@@ -25,19 +58,5 @@ export class UserInterface {
         return form;
     }
 
-    _attachStartFormEvents(form, cb) {
-        const input = form.querySelector('#player1');
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const playerName = input.value.trim();
 
-            if (playerName) cb(playerName);
-        });
-    }
-
-    renderStartForm(cb) {
-        const form = this._buildStartForm(cb);
-        this._attachStartFormEvents(form, cb);
-        this.appRoot.replaceChildren(form);
-    }
 }

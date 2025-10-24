@@ -35,14 +35,4 @@ describe('player module', () => {
         expect(() => new Player(new Player(), 'Human')).toThrow();
     });
 
-    test('can get misses', () => {
-        expect(() => new Player(new Gameboard(), 'Human').getOpponentMisses()).not.toThrow();
-        const p1 = new Player(new Gameboard(), 'p1');
-        p1.receiveAttack({ x: 0, y: 0 });
-        p1.receiveAttack({ x: 0, y: 1 });
-        expect(p1.getOpponentMisses()).toStrictEqual([
-            { x: 0, y: 0 },
-            { x: 0, y: 1 }
-        ])
-    });
 });

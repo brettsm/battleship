@@ -25,6 +25,8 @@ export class GameController {
             const message = this.current === this.#userPlayer ? 'You start' : 'Computer starts';
 
             this.ui.renderCoinFlipResult({ message: message, onDone: () => this._startGame() });
+
+            this._startGame();
         });
     }
 
@@ -33,6 +35,13 @@ export class GameController {
     }
 
     _startGame() {
-        
+        this.#state = 'inPlay';
+        // TODO: now we need to choose the ships
+        this.#computerPlayer.randomizeFleet();
+        console.log(this.#computerPlayer.board.placed)
+    }
+
+    _gameIsOver() {
+        return this.#userPlayer.allSunk() || this.#computerPlayer.allSunk();
     }
 }

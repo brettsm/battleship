@@ -5,7 +5,8 @@ import { Gameboard } from '../src/domain/gameboard.js';
 
 describe('game controller properties', () => {
     test('takes all parameters', () => {
-        const appRoot = 0;
-        expect(new GameController(new Player(new Gameboard(), 'brett'), new Player(new Gameboard()), new UserInterface(appRoot))).toBeDefined();
+        let root = {}
+        const game = new GameController(root);
+        expect(game).toBeDefined();
     });
 });

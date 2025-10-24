@@ -5,8 +5,6 @@ export class Ship {
     // TODO: implement ship types for battleship (aircraft carrier: length 5, cruiser: length 3, etc.)
 
     constructor(type) {
-        console.log(SHIP_BY_ID);
-        console.log(SHIP_BY_ID[type]);
         if (!Object.hasOwn(SHIP_BY_ID, type))
             throw new TypeError('Ship expects id of SHIP_TYPE');
 

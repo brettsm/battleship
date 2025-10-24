@@ -2,7 +2,6 @@ import { SHIP_TYPES, SHIP_BY_ID } from "./config/ships.js";
 
 export class Ship {
     #hits = 0;
-    // TODO: implement ship types for battleship (aircraft carrier: length 5, cruiser: length 3, etc.)
 
     constructor(type) {
         if (!Object.hasOwn(SHIP_BY_ID, type))

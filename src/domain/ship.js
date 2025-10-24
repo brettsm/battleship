@@ -1,4 +1,4 @@
-import { SHIP_TYPES, SHIP_BY_ID } from "./config/ships.js";
+import { SHIP_BY_ID } from "./config/ships.js";
 
 export class Ship {
     #hits = 0;

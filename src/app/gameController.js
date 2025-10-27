@@ -63,11 +63,74 @@ export class GameController {
         this.ui.hideBusy();
     }
 
-    // async _userPlacementPhase() {
-    //     // needs to return a promise so we can use await
+    async _userPlacementPhase() {
+        // needs to return a promise so we can use await
 
-    //     this.ui.
-    // }
+        return new Promise((resolve) => {
+            this.ui.renderPlacementForm(
+                {
+                    ship: SHIP_TYPES[0],
+                    onSubmit: (coordText) => {
+                        const shipTypes = SHIP_TYPES;
+                        let shipIndex = 0;
+
+                        const { x, y }= this._parseCoords(coordText);
+                    },
+                }
+            )
+            
+
+        });
+    }
+
+    _parseCoords(text) {
+        let clean = text.trim().toUpperCase().replaceAll(/\s+/g, '');
+        let coords = clean.match(/^([A-J])(\d{1,2})([HV])?$/);
+
+        if (!coords) throw new Error(`Invalid coordinate format, expected like: B7H or B7V or B7, got ${clean}`);
+
+        console.log(coords);
+
+        const y = _letterToY(coords[1]);
+        const x = _coordToX(coords[2]);
+    }
+
+    _letterToY(letter) {
+        if (typeof(letter) !== 'string' || letter.length !== 1) throw new TypeError(`Expected a single letter A-Z, got ${letter}`);
+
+        const code = letter.toUpperCase.codePointAt(0);
+        const index = code - 65;
+
+        if (index < 0 || index > 9) {
+            throw new RangeError(`index out of range 0-9: ${index}`);
+        }
+
+        return index;
+    }
+
+    _yToLetter(y) {
+        if (typeof y !== 'number' || y < 0 || y > 9)
+            throw new RangeError('yToLetter(y): y is out of range (0 - 9)')
+        return String.fromCodePoint(65 + y);
+    }
+
+    _coordToX(val) {
+        if (typeof(val) !== 'string' || !/^d{1,2}$/.test(val))
+            throw new TypeError(`expected a numeric character 1-10: got ${val}`);
+
+        const num = Number(val)
+        if (!Number.isInteger(num) || num > 10 || num < 1) 
+            throw new RangeError(`number is outside of range 1-10: ${num}`);
+
+        return num - 1;
+    }
+
+    _xToCoord(x) {
+        if (typeof(x) !== 'number' || x < 0 || x > 9) 
+            throw new RangeError('xToCoord(x): x is out of range (0-9)');
+        
+        return x + 1;
+    }
 
     async _sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));

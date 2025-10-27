@@ -20,7 +20,7 @@ export class GameController {
             this.#computerPlayer = new Player(new Gameboard(), 'Computer');
 
             await this._computerPlacementPhase();
-            //this._placeUserShips();
+            await this._userPlacementPhase();
 
             // TODO: should I have it flip a coin here?
 
@@ -59,8 +59,15 @@ export class GameController {
     async _computerPlacementPhase() {
         this.ui.showBusy('Deploying enemy fleet...');
         await this._sleep(400).then(console.log('slept'));
-
+        this._placeComputerShips();
+        this.ui.hideBusy();
     }
+
+    // async _userPlacementPhase() {
+    //     // needs to return a promise so we can use await
+
+    //     this.ui.
+    // }
 
     async _sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));

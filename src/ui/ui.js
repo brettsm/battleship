@@ -11,9 +11,8 @@ export class UserInterface {
         this.appRoot.replaceChildren(form);
     }
 
-    renderGameView(humanStarts) {
-        const view = _buildGameView(humanStarts);
-        this.appRoot.replaceChildren(view);
+    renderPlaceForm(ship, cb) {
+        const form = this._buildPlaceForm(ship);
     }
 
     renderCoinFlipResult({ message, onDone }) {
@@ -21,8 +20,21 @@ export class UserInterface {
         setTimeout(onDone, 1000);
     }
 
-    _buildGameView(humanStarts) {
+    renderShips() {
+        // display user ships on grid
+        return;
+    }
 
+    showBusy(message) {
+        const busyOverlay = document.createElement('div');
+        busyOverlay.textContent = message;
+        busyOverlay.classList.add('busy-overlay');
+        this.appRoot.appendChild(busyOverlay);
+    }
+
+    hideBusy() {
+        const overlay = this.appRoot.querySelector('.busy-overlay');
+        if (overlay) overlay.remove();
     }
 
     _attachStartFormEvents(form, cb) {
@@ -35,7 +47,8 @@ export class UserInterface {
         });
     }
 
-    
+    // TODO: make _buildPlaceForm(ship)
+
     _buildStartForm() {
         const form = document.createElement('form');
         form.id = 'start-form';

@@ -99,12 +99,12 @@ export class Gameboard {
     }
 
     clear() {
-    this.#placed.clear();
-    this.#hits.clear();
-    this.#misses.clear();
-    this.#ships.clear();
-    return this;
-}
+        this.#placed.clear();
+        this.#hits.clear();
+        this.#misses.clear();
+        this.#ships.clear();
+        return this;
+    }
 
     get placed() {
         return this.#placed;

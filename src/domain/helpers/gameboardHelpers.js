@@ -6,8 +6,9 @@ export const unkey = (string) => {
 }
 
 export const cellsFor = (length, { x, y }, dir) => {
+    dir.toUpperCase();
     return Array.from({ length }, (_, i) => 
-        dir === 'h' ? { x: x + i, y: y } : { x: x, y: y + i }
+        dir === 'H' ? { x: x + i, y: y } : { x: x, y: y + i }
     );
 }
 

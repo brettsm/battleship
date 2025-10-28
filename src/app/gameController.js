@@ -75,6 +75,7 @@ export class GameController {
                         let shipIndex = 0;
 
                         const { x, y }= this._parseCoords(coordText);
+                        console.log(`x: ${x}, y ${y}`);
                     },
                 }
             )
@@ -94,13 +95,14 @@ export class GameController {
         const y = this._letterToY(coords[1]);
         const x = this._coordToX(coords[2]);
 
-
+        return { x , y };
     }
 
     _letterToY(letter) {
         if (typeof(letter) !== 'string' || letter.length !== 1) throw new TypeError(`Expected a single letter A-Z, got ${letter}`);
 
-        const code = letter.toUpperCase.codePointAt(0);
+        const caps = letter.toUpperCase();
+        const code = caps.codePointAt(0);
         const index = code - 65;
 
         if (index < 0 || index > 9) {
@@ -117,8 +119,8 @@ export class GameController {
     }
 
     _coordToX(val) {
-        if (typeof(val) !== 'string' || !/^d{1,2}$/.test(val))
-            throw new TypeError(`expected a numeric character 1-10: got ${val}`);
+        if (typeof(val) !== 'string')
+            throw new TypeError(`expected a numeric character 1-10: got ${val} type ${typeof(val)}`);
 
         const num = Number(val)
         if (!Number.isInteger(num) || num > 10 || num < 1) 

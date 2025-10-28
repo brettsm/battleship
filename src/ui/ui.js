@@ -33,9 +33,11 @@ export class UserInterface {
         if (overlay) overlay.remove();
     }
 
-    renderPlacementForm({ ship, onSubmit }) {
+    renderPlacementForm({ ship, onSubmit, onReady }) {
         const form = this._buildPlacementForm(ship);
+        const readyButton = form.querySelector('#ready-button');
         this._attachPlacementFormEvent(form, onSubmit);
+        this._attachReadyListener(readyButton, onReady);
         this.appRoot.replaceChildren(form);
     }
 
@@ -89,10 +91,22 @@ export class UserInterface {
         submitButton.type = 'submit';
         submitButton.textContent = 'Submit';
 
+
+        const readyButton = document.createElement('button');
+        readyButton.type = 'button';
+        readyButton.textContent = 'Ready';
+        readyButton.id = 'ready-button';
+        readyButton.disabled = true;
+
         label.appendChild(input);
-        form.append(label, submitButton);
+        form.append(label, submitButton, readyButton);
 
         return form;
+    }
+
+    enableReadyButton() {
+        const readyButton = document.getElementById('ready-button');
+        readyButton.disabled = false;
     }
 
     updatePlacementMessage(msg) {
@@ -110,5 +124,9 @@ export class UserInterface {
 
             if (coords) cb(coords);
         });
+    }
+
+    _attachReadyListener(button, onReady) {
+        button.addEventListener('click', onReady);
     }
 }

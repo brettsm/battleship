@@ -78,6 +78,7 @@ export class UserInterface {
         form.id = 'placement-form';
 
         const label = document.createElement('label');
+        label.id = 'placement-message';
         label.textContent = `Where would you like to place ${ship.name}, length: ${ship.length}`;
 
         const input = document.createElement('input');
@@ -92,6 +93,11 @@ export class UserInterface {
         form.append(label, submitButton);
 
         return form;
+    }
+
+    updatePlacementMessage(msg) {
+        const msgElem = this.appRoot.querySelector('#placement-message');
+        msgElem.textContent = msg;
     }
 
     _attachPlacementFormEvent(form, cb) {

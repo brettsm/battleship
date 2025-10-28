@@ -2,6 +2,7 @@ import { Player } from "../domain/player.js";
 import { UserInterface } from "../ui/ui.js";
 import { Gameboard } from "../domain/gameboard.js";
 import { SHIP_TYPES } from "../domain/config/ships.js";
+import { Ship } from "../domain/ship.js"
 
 export class GameController {
     #userPlayer
@@ -34,6 +35,8 @@ export class GameController {
 
             this.ui.renderCoinFlipResult({ message: message, onDone: () => this._startGame() });
 
+            this._startGame();
+
             // TODO: refactor like this:
             //      1. set user player
             //      2. set computer player
@@ -47,6 +50,7 @@ export class GameController {
 
     _startGame() {
         this.#state = 'inPlay';
+        console.log('game started');
     }
 
     _gameIsOver() {
@@ -65,21 +69,32 @@ export class GameController {
 
     async _userPlacementPhase() {
         // needs to return a promise so we can use await
+        let index = 0;
 
         return new Promise((resolve) => {
+            
             this.ui.renderPlacementForm(
                 {
-                    ship: SHIP_TYPES[0],
+                    ship: SHIP_TYPES[index],
                     onSubmit: (coordText) => {
-                        const shipTypes = SHIP_TYPES;
-                        let shipIndex = 0;
 
                         const { x, y, dir }= this._parseCoords(coordText);
-                        console.log(`x: ${x}, y: ${y}, dir: ${dir}`);
-                        this.#userPlayer.placeShip( ship, { x: x, y: y }, dir )
+                        const ship = new Ship(SHIP_TYPES[index].id);
+
+                        this.#userPlayer.placeShip( ship, { x: x, y: y }, dir );
+
+                        if (++index < SHIP_TYPES.length)
+                            this.ui.updatePlacementMessage(`Place ${SHIP_TYPES[index].name}, length: ${SHIP_TYPES[index].length}`);
+                        else {
+                            this.ui.updatePlacementMessage('All ships placed');
+                            this.ui.enableReadyButton();
+                        }
                     },
+                    onReady: () => {
+                        resolve();
+                    }
                 }
-            )
+            );
             
 
         });

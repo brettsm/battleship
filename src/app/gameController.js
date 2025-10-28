@@ -16,6 +16,7 @@ export class GameController {
     }
 
     init() {
+        this.ui.mountShell();
         this.ui.renderStartForm(async (playerName) => {
             this.#userPlayer = new Player(new Gameboard(), playerName);
             this.#computerPlayer = new Player(new Gameboard(), 'Computer');
@@ -41,7 +42,7 @@ export class GameController {
     }
 
     async _performStartupSequence() {
-        await this._computerPlacementPhase();
+            await this._computerPlacementPhase();
             await this._userPlacementPhase();
 
             const humanStarts = this._flipCoin();
@@ -56,10 +57,9 @@ export class GameController {
     }
 
     async _computerPlacementPhase() {
-        this.ui.showBusy('Deploying enemy fleet...');
-        await this._sleep(400).then(console.log('slept'));
+        this.ui.updateStatusBar('Deploying enemy fleet...');
+        await this._sleep(400);
         this._placeComputerShips();
-        this.ui.hideBusy();
     }
 
     async _userPlacementPhase() {

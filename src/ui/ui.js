@@ -79,9 +79,12 @@ export class UserInterface {
         const form = document.createElement('form');
         form.id = 'placement-form';
 
+        const placementMessage = document.createElement('p');
+        placementMessage.textContent = `Where would you like to place ${ship.name}, length: ${ship.length}`;
+        placementMessage.id = 'placement-message';
+
         const label = document.createElement('label');
-        label.id = 'placement-message';
-        label.textContent = `Where would you like to place ${ship.name}, length: ${ship.length}`;
+        label.textContent = 'Enter coords here: ';
 
         const input = document.createElement('input');
         input.type = 'text';
@@ -99,7 +102,7 @@ export class UserInterface {
         readyButton.disabled = true;
 
         label.appendChild(input);
-        form.append(label, submitButton, readyButton);
+        form.append(placementMessage, label, submitButton, readyButton);
 
         return form;
     }

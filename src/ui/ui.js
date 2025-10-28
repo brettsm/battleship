@@ -11,10 +11,6 @@ export class UserInterface {
         this.appRoot.replaceChildren(form);
     }
 
-    renderPlaceForm(ship, cb) {
-        const form = this._buildPlaceForm(ship);
-    }
-
     renderCoinFlipResult({ message, onDone }) {
         this.appRoot.textContent = message;
         setTimeout(onDone, 1000);
@@ -35,6 +31,12 @@ export class UserInterface {
     hideBusy() {
         const overlay = this.appRoot.querySelector('.busy-overlay');
         if (overlay) overlay.remove();
+    }
+
+    renderPlacementForm({ ship, onSubmit }) {
+        const form = this._buildPlacementForm(ship);
+        this._attachPlacementFormEvent(form, onSubmit);
+        this.appRoot.replaceChildren(form);
     }
 
     _attachStartFormEvents(form, cb) {
@@ -71,5 +73,36 @@ export class UserInterface {
         return form;
     }
 
+    _buildPlacementForm(ship) {
+        const form = document.createElement('form');
+        form.id = 'placement-form';
 
+        const label = document.createElement('label');
+        label.textContent = `Where would you like to place ${ship.name}, length: ${ship.length}`;
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.id = 'placement-input';
+
+        const submitButton = document.createElement('button');
+        submitButton.type = 'submit';
+        submitButton.textContent = 'Submit';
+
+        label.appendChild(input);
+        form.append(label, submitButton);
+
+        return form;
+    }
+
+    _attachPlacementFormEvent(form, cb) {
+        const input = form.querySelector('#placement-input');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const coords = input.value.trim(); 
+
+            if (coords) cb(coords);
+        });
+    }
 }

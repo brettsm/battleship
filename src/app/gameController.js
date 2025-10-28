@@ -20,27 +20,7 @@ export class GameController {
             this.#userPlayer = new Player(new Gameboard(), playerName);
             this.#computerPlayer = new Player(new Gameboard(), 'Computer');
 
-            await this._computerPlacementPhase();
-            await this._userPlacementPhase();
-
-            // TODO: should I have it flip a coin here?
-
-            const humanStarts = this._flipCoin();
-            this.#current = humanStarts ? this.#userPlayer : this.#computerPlayer;
-            this.#other = humanStarts ? this.#computerPlayer : this.#userPlayer;
-
-            
-            
-            const message = this.current === this.#userPlayer ? 'You start' : 'Computer starts';
-
-            this.ui.renderCoinFlipResult({ message: message, onDone: () => this._startGame() });
-
-            this._startGame();
-
-            // TODO: refactor like this:
-            //      1. set user player
-            //      2. set computer player
-            //      3. this._placeHumanFleet();
+            this._performStartupSequence();
         });
     }
 
@@ -58,6 +38,21 @@ export class GameController {
     }
     _placeComputerShips() {
         this.#computerPlayer.randomizeFleet();
+    }
+
+    async _performStartupSequence() {
+        await this._computerPlacementPhase();
+            await this._userPlacementPhase();
+
+            const humanStarts = this._flipCoin();
+            this.#current = humanStarts ? this.#userPlayer : this.#computerPlayer;
+            this.#other = humanStarts ? this.#computerPlayer : this.#userPlayer;
+
+            
+            
+            const message = this.#current === this.#userPlayer ? 'You start' : 'Computer starts';
+
+            this.ui.renderCoinFlipResult({ message, onDone: () => this._startGame() });
     }
 
     async _computerPlacementPhase() {

@@ -1,5 +1,5 @@
 export class UserInterface {
-    #statusBar;
+    #statusBar; #stage;
 
     constructor(appRoot) {
         this.appRoot = appRoot;
@@ -14,11 +14,16 @@ export class UserInterface {
 
         const stage = document.createElement('div');
         stage.id = 'stage';
+        this.#stage = stage;
 
         this.appRoot.append(statusBar);
         this.appRoot.append(stage);
     }
     
+    _resetToShell() {
+        this.appRoot.replaceChildren(this.#statusBar, this.#stage);
+    }
+
     renderStartForm(cb) {
         const form = this._buildStartForm();
         this._attachStartFormEvents(form, cb);
@@ -26,7 +31,11 @@ export class UserInterface {
     }
 
     renderCoinFlipResult({ message, onDone }) {
-        this.appRoot.textContent = message;
+        this._resetToShell();
+        this.updateStatusBar('Starting game...');
+        const startMessage = document.createElement('div');
+        startMessage.textContent = message;
+        this.appRoot.appendChild(startMessage);
         setTimeout(onDone, 1000);
     }
 
@@ -40,6 +49,8 @@ export class UserInterface {
     }
 
     renderPlacementForm({ ship, onSubmit, onReady }) {
+        this._resetToShell();
+        this.updateStatusBar('Deploying your fleet...');
         const form = this._buildPlacementForm(ship);
         const readyButton = form.querySelector('#ready-button');
         this._attachPlacementFormEvent(form, onSubmit);

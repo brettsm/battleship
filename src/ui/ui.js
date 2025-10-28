@@ -1,14 +1,28 @@
 export class UserInterface {
+    #statusBar;
+
     constructor(appRoot) {
         this.appRoot = appRoot;
     }
 
+    mountShell() {
+        const statusBar = document.createElement('div');
+        statusBar.id = 'status-bar';
+        statusBar.textContent = 'Welcome!';
+        this.#statusBar = statusBar;
 
+
+        const stage = document.createElement('div');
+        stage.id = 'stage';
+
+        this.appRoot.append(statusBar);
+        this.appRoot.append(stage);
+    }
     
     renderStartForm(cb) {
         const form = this._buildStartForm();
         this._attachStartFormEvents(form, cb);
-        this.appRoot.replaceChildren(form);
+        this.appRoot.appendChild(form);
     }
 
     renderCoinFlipResult({ message, onDone }) {
@@ -21,16 +35,8 @@ export class UserInterface {
         return;
     }
 
-    showBusy(message) {
-        const busyOverlay = document.createElement('div');
-        busyOverlay.textContent = message;
-        busyOverlay.classList.add('busy-overlay');
-        this.appRoot.appendChild(busyOverlay);
-    }
-
-    hideBusy() {
-        const overlay = this.appRoot.querySelector('.busy-overlay');
-        if (overlay) overlay.remove();
+    updateStatusBar(message) {
+        this.#statusBar.textContent = message;
     }
 
     renderPlacementForm({ ship, onSubmit, onReady }) {
@@ -38,7 +44,7 @@ export class UserInterface {
         const readyButton = form.querySelector('#ready-button');
         this._attachPlacementFormEvent(form, onSubmit);
         this._attachReadyListener(readyButton, onReady);
-        this.appRoot.replaceChildren(form);
+        this.appRoot.appendChild(form);
     }
 
     _attachStartFormEvents(form, cb) {

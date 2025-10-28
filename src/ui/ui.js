@@ -51,8 +51,6 @@ export class UserInterface {
         });
     }
 
-    // TODO: make _buildPlaceForm(ship)
-
     _buildStartForm() {
         const form = document.createElement('form');
         form.id = 'start-form';

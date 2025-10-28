@@ -74,8 +74,9 @@ export class GameController {
                         const shipTypes = SHIP_TYPES;
                         let shipIndex = 0;
 
-                        const { x, y }= this._parseCoords(coordText);
-                        console.log(`x: ${x}, y ${y}`);
+                        const { x, y, dir }= this._parseCoords(coordText);
+                        console.log(`x: ${x}, y: ${y}, dir: ${dir}`);
+                        this.#userPlayer.placeShip( ship, { x: x, y: y }, dir )
                     },
                 }
             )
@@ -94,8 +95,10 @@ export class GameController {
 
         const y = this._letterToY(coords[1]);
         const x = this._coordToX(coords[2]);
+        let dir = coords[3];
+        if (!coords[3]) dir = 'H';
 
-        return { x , y };
+        return { x , y , dir };
     }
 
     _letterToY(letter) {

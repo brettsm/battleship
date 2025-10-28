@@ -65,8 +65,6 @@ export class GameController {
 
     async _userPlacementPhase() {
         // needs to return a promise so we can use await
-    async _userPlacementPhase() {
-        // needs to return a promise so we can use await
 
         return new Promise((resolve) => {
             this.ui.renderPlacementForm(

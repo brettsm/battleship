@@ -66,7 +66,7 @@ export class UserInterface {
 
         const submitButton = document.createElement('button');
         submitButton.type = 'submit';
-        submitButton.textContent = 'Submit';
+        submitButton.textContent = 'Start';
 
         label.appendChild(input);
         

@@ -1,0 +1,34 @@
+html, body { height: 100%; margin: 0; }
+*, *::before, *::after { box-sizing: border-box; }
+
+#app {
+    background-color: lightblue;
+    height: 100svh;
+
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 64px 1fr;
+    gap: 16px;
+    padding: 1em;
+}
+
+#status-bar {
+    grid-column: 1 / -1;
+    grid-row: 1;
+}
+
+#player-board,
+#player-panel {
+    grid-row: 2;
+    min-width: 0;
+    min-height: 0;
+}
+
+#player-board { 
+    grid-column: 1;
+    background: black;
+}
+#player-panel { 
+    grid-column: 2;
+    background: red;
+}

@@ -1,5 +1,5 @@
 export class UserInterface {
-    #statusBar; #stage;
+    #statusBar; #stage; #playerPanel; #playerBoard; #gameArea
 
     constructor(appRoot) {
         this.appRoot = appRoot;
@@ -11,23 +11,27 @@ export class UserInterface {
         statusBar.textContent = 'Welcome!';
         this.#statusBar = statusBar;
 
+        const playerBoard = document.createElement('div');
+        playerBoard.id = 'player-board';
+        this.#playerBoard = playerBoard;
 
-        const stage = document.createElement('div');
-        stage.id = 'stage';
-        this.#stage = stage;
+        const playerPanel = document.createElement('div');
+        playerPanel.id = 'player-panel';
+        this.#playerPanel = playerPanel;
 
-        this.appRoot.append(statusBar);
-        this.appRoot.append(stage);
+
+        this.appRoot.append(statusBar, playerBoard, playerPanel);
     }
     
     _resetToShell() {
-        this.appRoot.replaceChildren(this.#statusBar, this.#stage);
+        this.appRoot.replaceChildren(this.#statusBar, this.#playerBoard, this.#playerPanel);
+        // need to update this i believe
     }
 
     renderStartForm(cb) {
         const form = this._buildStartForm();
         this._attachStartFormEvents(form, cb);
-        this.appRoot.appendChild(form);
+        this.#playerPanel.appendChild(form);
     }
 
     renderCoinFlipResult({ message, onDone }) {
@@ -73,7 +77,7 @@ export class UserInterface {
         form.id = 'start-form';
         
         const label = document.createElement('label');
-        label.textContent = 'Enter your Name:';
+        label.textContent = 'Enter your name to get started:';
         
         const input = document.createElement('input');
         input.type = 'text';

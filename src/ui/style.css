@@ -2,7 +2,7 @@ html, body { height: 100%; margin: 0; }
 *, *::before, *::after { box-sizing: border-box; }
 
 #app {
-    background-color: lightblue;
+    background-color: white;
     height: 100svh;
 
     display: grid;
@@ -15,6 +15,10 @@ html, body { height: 100%; margin: 0; }
 #status-bar {
     grid-column: 1 / -1;
     grid-row: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #player-board,
@@ -31,4 +35,5 @@ html, body { height: 100%; margin: 0; }
 #player-panel { 
     grid-column: 2;
     background: red;
+    padding: 1em;
 }

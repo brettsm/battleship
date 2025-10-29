@@ -9,6 +9,7 @@ export class UserInterface {
         const statusBar = document.createElement('div');
         statusBar.id = 'status-bar';
         statusBar.textContent = 'Welcome!';
+        statusBar.classList.add('shadowed');
         this.#statusBar = statusBar;
 
         const playerBoard = document.createElement('div');
@@ -17,7 +18,9 @@ export class UserInterface {
 
         const playerPanel = document.createElement('div');
         playerPanel.id = 'player-panel';
+        playerPanel.classList.add('shadowed');
         this.#playerPanel = playerPanel;
+        
 
 
         this.appRoot.append(statusBar, playerBoard, playerPanel);

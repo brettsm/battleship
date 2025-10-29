@@ -13,7 +13,7 @@ html, body { height: 100%; margin: 0; }
 }
 
 #status-bar {
-    grid-column: 1 / -1;
+    grid-column: 2;
     grid-row: 1;
 
     display: flex;
@@ -21,7 +21,6 @@ html, body { height: 100%; margin: 0; }
     align-items: center;
 }
 
-#player-board,
 #player-panel {
     grid-row: 2;
     min-width: 0;
@@ -30,12 +29,22 @@ html, body { height: 100%; margin: 0; }
 
 #player-board { 
     grid-column: 1;
+    grid-row: 1 / -1;
+    min-height: 0;
+    min-width: 0;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 #player-panel { 
     grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+    min-height: 0;
     background: white;
     padding: 1em;
+}
+
+.shadowed {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

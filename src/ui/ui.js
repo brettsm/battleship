@@ -1,5 +1,5 @@
 export class UserInterface {
-    #statusBar; #stage; #playerPanel; #playerBoard; #gameArea
+    #statusBar; #stage; #playerPanel; #playerBoard; #missBoard; #placementBoard;
 
     constructor(appRoot) {
         this.appRoot = appRoot;
@@ -9,16 +9,15 @@ export class UserInterface {
         const statusBar = document.createElement('div');
         statusBar.id = 'status-bar';
         statusBar.textContent = 'Welcome!';
-        statusBar.classList.add('shadowed');
+        statusBar.classList.add('in-shadowed');
         this.#statusBar = statusBar;
 
-        const playerBoard = document.createElement('div');
-        playerBoard.id = 'player-board';
-        this.#playerBoard = playerBoard;
+        const playerBoard = this._makePlayerBoard();
+        playerBoard.classList.add('in-shadowed');
 
         const playerPanel = document.createElement('div');
         playerPanel.id = 'player-panel';
-        playerPanel.classList.add('shadowed');
+        playerPanel.classList.add('in-shadowed');
         this.#playerPanel = playerPanel;
         
 
@@ -29,6 +28,25 @@ export class UserInterface {
     _resetToShell() {
         this.appRoot.replaceChildren(this.#statusBar, this.#playerBoard, this.#playerPanel);
         // need to update this i believe
+    }
+
+    _makePlayerBoard() {
+        const container = document.createElement('div');
+        container.id = 'player-board';
+
+        const missBoard = document.createElement('div');
+        missBoard.id = 'miss-board';
+        this.#missBoard = missBoard;
+
+        const placementBoard = document.createElement('div');
+        placementBoard.id = 'placement-board';
+        this.#placementBoard = placementBoard;
+
+        container.appendChild(missBoard);
+        container.appendChild(placementBoard);
+
+        return container;
+
     }
 
     renderStartForm(cb) {

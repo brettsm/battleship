@@ -1,3 +1,6 @@
+//  TODO: TOP PRIORITY refactor ui.js into classes
+//          delete ui.js, import everything into gameController.js
+
 export class UserInterface {
     #statusBar; #stage; #playerPanel; #playerBoard; #missBoard; #placementBoard;
 

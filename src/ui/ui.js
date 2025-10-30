@@ -20,16 +20,12 @@ export class UserInterface {
         playerPanel.classList.add('in-shadowed');
         this.#playerPanel = playerPanel;
         
+        // TODO: need to create populate the grids in missBoard and placementBoard with divs to place ships and hits/missmarkers
 
 
         this.appRoot.append(statusBar, playerBoard, playerPanel);
     }
     
-    _resetToShell() {
-        this.appRoot.replaceChildren(this.#statusBar, this.#playerBoard, this.#playerPanel);
-        // need to update this i believe
-    }
-
     _makePlayerBoard() {
         const container = document.createElement('div');
         container.id = 'player-board';
@@ -56,10 +52,7 @@ export class UserInterface {
     }
 
     renderCoinFlipResult({ message, onDone }) {
-        this._resetToShell();
-        this.updateStatusBar('Starting game...');
-        const startMessage = document.createElement('div');
-        startMessage.textContent = message;
+        this.updateStatusBar('Starting game... ' + message);
         this.appRoot.appendChild(startMessage);
         setTimeout(onDone, 1000);
     }
@@ -74,13 +67,12 @@ export class UserInterface {
     }
 
     renderPlacementForm({ ship, onSubmit, onReady }) {
-        this._resetToShell();
-        this.updateStatusBar('Deploying your fleet...');
+        this.updateStatusBar('Deploy your fleet...');
         const form = this._buildPlacementForm(ship);
         const readyButton = form.querySelector('#ready-button');
         this._attachPlacementFormEvent(form, onSubmit);
         this._attachReadyListener(readyButton, onReady);
-        this.appRoot.appendChild(form);
+        this.#playerPanel.replaceChildren(form);
     }
 
     _attachStartFormEvents(form, cb) {

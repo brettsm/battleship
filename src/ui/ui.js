@@ -7,27 +7,6 @@ export class UserInterface {
     constructor(appRoot) {
         this.appRoot = appRoot;
     }
-
-    mountShell() {
-        const statusBar = document.createElement('div');
-        statusBar.id = 'status-bar';
-        statusBar.textContent = 'Welcome!';
-        statusBar.classList.add('in-shadowed');
-        this.#statusBar = statusBar;
-
-        const playerBoard = this._makePlayerBoard();
-        playerBoard.classList.add('in-shadowed');
-
-        const playerPanel = document.createElement('div');
-        playerPanel.id = 'player-panel';
-        playerPanel.classList.add('in-shadowed');
-        this.#playerPanel = playerPanel;
-        
-        // TODO: need to create populate the grids in missBoard and placementBoard with divs to place ships and hits/missmarkers
-
-
-        this.appRoot.append(statusBar, playerBoard, playerPanel);
-    }
     
     _makePlayerBoard() {
         const container = document.createElement('div');

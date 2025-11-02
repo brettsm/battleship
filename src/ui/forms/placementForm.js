@@ -57,7 +57,11 @@ export function createPlacementForm({
         readyButton.disabled = false;
     }
 
-    return { placementForm, updatePlacementMessage, enableReadyButton };
+    const resetInput = () => {
+        input.value = '';
+    }
+
+    return { placementForm, updatePlacementMessage, enableReadyButton, resetInput };
 
     
 

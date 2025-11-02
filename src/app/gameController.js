@@ -1,8 +1,11 @@
 import { Player } from "../domain/player.js";
+import { createShell } from "../ui/shell.js";
 import { UserInterface } from "../ui/ui.js";
 import { Gameboard } from "../domain/gameboard.js";
 import { SHIP_TYPES } from "../domain/config/ships.js";
 import { Ship } from "../domain/ship.js"
+import { createStartForm } from '../ui/forms/startForm.js';
+import { createPlacementForm } from '../ui/forms/placementForm.js';
 
 export class GameController {
     #userPlayer
@@ -11,18 +14,28 @@ export class GameController {
     #other
     #state
     constructor({ appRoot, rng = Math.random }) {
-        this.ui = new UserInterface(appRoot);
+        const shell = createShell({ statusText: 'Enter your name to begin' });
+        this.shell = shell;
         this.rng = rng;
+
+        appRoot.append(
+            shell.statusBar,
+            shell.playerBoard,
+            shell.playerPanel
+        );
+        // TODO: add function from shell to update gameboard?
     }
 
     init() {
-        this.ui.mountShell();
-        this.ui.renderStartForm(async (playerName) => {
+        const startForm = createStartForm({}, (playerName) => {
             this.#userPlayer = new Player(new Gameboard(), playerName);
             this.#computerPlayer = new Player(new Gameboard(), 'Computer');
 
+            // TODO: display the user's board
+
             this._performStartupSequence();
-        });
+        }).startForm;
+        this.shell.replacePanel(startForm);
     }
 
     _flipCoin() {
@@ -49,15 +62,15 @@ export class GameController {
             this.#current = humanStarts ? this.#userPlayer : this.#computerPlayer;
             this.#other = humanStarts ? this.#computerPlayer : this.#userPlayer;
 
-            
-            
             const message = this.#current === this.#userPlayer ? 'You start' : 'Computer starts';
 
-            this.ui.renderCoinFlipResult({ message, onDone: () => this._startGame() });
+            this.shell.setStatus(message);
+            
+            setTimeout(1000, this._startGame());
     }
 
     async _computerPlacementPhase() {
-        this.ui.updateStatusBar('Deploying enemy fleet...');
+        this.shell.setStatus('Deploying enemy fleet...');
         await this._sleep(400);
         this._placeComputerShips();
     }
@@ -67,31 +80,29 @@ export class GameController {
         let index = 0;
 
         return new Promise((resolve) => {
-            
-            this.ui.renderPlacementForm(
-                {
-                    ship: SHIP_TYPES[index],
-                    onSubmit: (coordText) => {
+            const placementForm = createPlacementForm({},
+                SHIP_TYPES[index],
+                (coordText) => {
+                    const {x, y, dir} = this._parseCoords(coordText);
+                    const ship = new Ship(SHIP_TYPES[index].id);
 
-                        const { x, y, dir }= this._parseCoords(coordText);
-                        const ship = new Ship(SHIP_TYPES[index].id);
+                    this.#userPlayer.placeShip(ship, {x, y}, dir);
 
-                        this.#userPlayer.placeShip( ship, { x: x, y: y }, dir );
-
-                        if (++index < SHIP_TYPES.length)
-                            this.ui.updatePlacementMessage(`Place ${SHIP_TYPES[index].name}, length: ${SHIP_TYPES[index].length}`);
-                        else {
-                            this.ui.updatePlacementMessage('All ships placed');
-                            this.ui.enableReadyButton();
-                        }
-                    },
-                    onReady: () => {
-                        resolve();
+                    if (++index < SHIP_TYPES.length) {
+                        placementForm.updatePlacementMessage(`Place ${SHIP_TYPES[index].name}, length: ${SHIP_TYPES[index].length}`);
+                        placementForm.resetInput();
                     }
+                    else {
+                        placementForm.updatePlacementMessage('All ships place');
+                        placementForm.enableReadyButton();
+                    }
+                },
+                () => {
+                    resolve();
                 }
             );
-            
 
+            this.shell.replacePanel(placementForm.placementForm);
         });
     }
 

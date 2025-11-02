@@ -27,12 +27,6 @@ export class UserInterface {
 
     }
 
-    renderStartForm(cb) {
-        const form = this._buildStartForm();
-        this._attachStartFormEvents(form, cb);
-        this.#playerPanel.appendChild(form);
-    }
-
     renderCoinFlipResult({ message, onDone }) {
         this.updateStatusBar('Starting game... ' + message);
         this.appRoot.appendChild(startMessage);
@@ -55,38 +49,6 @@ export class UserInterface {
         this._attachPlacementFormEvent(form, onSubmit);
         this._attachReadyListener(readyButton, onReady);
         this.#playerPanel.replaceChildren(form);
-    }
-
-    _attachStartFormEvents(form, cb) {
-        const input = form.querySelector('#player1');
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const playerName = input.value.trim();
-
-            if (playerName) cb(playerName);
-        });
-    }
-
-    _buildStartForm() {
-        const form = document.createElement('form');
-        form.id = 'start-form';
-        
-        const label = document.createElement('label');
-        label.textContent = 'Enter your name to get started:';
-        
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.id = 'player1';
-
-        const submitButton = document.createElement('button');
-        submitButton.type = 'submit';
-        submitButton.textContent = 'Start';
-
-        label.appendChild(input);
-        
-        form.append(label, submitButton);
-
-        return form;
     }
 
     _buildPlacementForm(ship) {

@@ -11,4 +11,8 @@ export function createPlayerBoard({
     placementBoard.id = ids.placementBoard;
 
     return{ missBoard, placementBoard };
+
+    const placeShip = (ship, {x, y}, dir) {
+        
+    }
 }

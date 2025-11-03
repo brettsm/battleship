@@ -38,22 +38,6 @@ export class GameController {
         this.shell.replacePanel(startForm);
     }
 
-    _flipCoin() {
-        return this.rng() < 0.5;
-    }
-
-    _startGame() {
-        this.#state = 'inPlay';
-        console.log('game started');
-    }
-
-    _gameIsOver() {
-        return this.#userPlayer.allSunk() || this.#computerPlayer.allSunk();
-    }
-    _placeComputerShips() {
-        this.#computerPlayer.randomizeFleet();
-    }
-
     async _performStartupSequence() {
             await this._computerPlacementPhase();
             await this._userPlacementPhase();
@@ -67,6 +51,23 @@ export class GameController {
             this.shell.setStatus(message);
             
             setTimeout(1000, this._startGame());
+    }
+
+    _startGame() {
+        this.#state = 'inPlay';
+        console.log('game started');
+    }
+
+
+    _flipCoin() {
+        return this.rng() < 0.5;
+    }
+    
+    _gameIsOver() {
+        return this.#userPlayer.allSunk() || this.#computerPlayer.allSunk();
+    }
+    _placeComputerShips() {
+        this.#computerPlayer.randomizeFleet();
     }
 
     async _computerPlacementPhase() {

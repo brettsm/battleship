@@ -6,6 +6,7 @@ import { SHIP_TYPES } from "../domain/config/ships.js";
 import { Ship } from "../domain/ship.js"
 import { createStartForm } from '../ui/forms/startForm.js';
 import { createPlacementForm } from '../ui/forms/placementForm.js';
+import { createPlayerBoard } from '../ui/playerBoard.js';
 
 export class GameController {
     #userPlayer
@@ -18,12 +19,20 @@ export class GameController {
         this.shell = shell;
         this.rng = rng;
 
+        this.playerBoard = createPlayerBoard();
+
+        this.shell.playerBoard.appendChild(this.playerBoard.missBoard);
+        this.shell.playerBoard.appendChild(this.playerBoard.placementBoard);
+
+        
+
         appRoot.append(
             shell.statusBar,
             shell.playerBoard,
             shell.playerPanel
         );
-        // TODO: add function from shell to update gameboard?
+        
+
     }
 
     init() {
@@ -56,7 +65,9 @@ export class GameController {
     _startGame() {
         this.#state = 'inPlay';
         console.log('game started');
+        
     }
+
 
 
     _flipCoin() {

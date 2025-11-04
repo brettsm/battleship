@@ -1,4 +1,4 @@
-import { Gameboard } from "../domain/gameboard";
+import { createGrid } from './grid/grid.js';
 
 export function createPlayerBoard({
     ids = {
@@ -12,6 +12,11 @@ export function createPlayerBoard({
     const placementBoard = document.createElement('div');
     placementBoard.id = ids.placementBoard;
 
+    const missGridObj = createGrid({name: 'miss'});
+    missBoard.appendChild(missGridObj.gridContainer);
+
+    const placementGridObj = createGrid({name: 'placement'});
+    placementBoard.appendChild(placementGridObj.gridContainer);
     
 
     return{ missBoard, placementBoard };

@@ -1,3 +1,5 @@
+import { Gameboard } from "../domain/gameboard";
+
 export function createPlayerBoard({
     ids = {
         missBoard: 'miss-board',
@@ -10,9 +12,8 @@ export function createPlayerBoard({
     const placementBoard = document.createElement('div');
     placementBoard.id = ids.placementBoard;
 
+    
+
     return{ missBoard, placementBoard };
 
-    const placeShip = (ship, {x, y}, dir) {
-        
-    }
 }

@@ -18,6 +18,7 @@ export function createPlayerBoard({
     const placementGridObj = createGrid({name: 'placement'});
     placementBoard.appendChild(placementGridObj.gridContainer);
     
+    // TODO: add row and column markers (A-J, 1-9)
 
     return{ missBoard, placementBoard };
 

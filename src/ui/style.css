@@ -51,19 +51,19 @@ html, body { height: 100%; margin: 0; }
 #miss-board,
 #placement-board {
     background-color: lightblue;
-    display: grid;
-    grid-template-columns: repeat(11, 1fr);
-    grid-template-rows: repeat(11, 1fr);
     flex: 1;
-    min-width: 436.5px;
-    min-height: 436.5px;
-}
-#miss-board {
-
+    min-width: 436px;
+    min-height: 436px;
 }
 
-#placement-board {
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+}
 
+.grid-border {
+    outline: 1px solid grey;
 }
 
 .in-shadowed {

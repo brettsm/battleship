@@ -1,6 +1,5 @@
 import { Player } from "../domain/player.js";
 import { createShell } from "../ui/shell.js";
-import { UserInterface } from "../ui/ui.js";
 import { Gameboard } from "../domain/gameboard.js";
 import { SHIP_TYPES } from "../domain/config/ships.js";
 import { Ship } from "../domain/ship.js"
@@ -99,7 +98,7 @@ export class GameController {
                     const ship = new Ship(SHIP_TYPES[index].id);
 
                     this.#userPlayer.placeShip(ship, {x, y}, dir);
-
+                    // TODO: this.playerBoard.placeShip(ship, {x, y}, dir);
                     if (++index < SHIP_TYPES.length) {
                         placementForm.updatePlacementMessage(`Place ${SHIP_TYPES[index].name}, length: ${SHIP_TYPES[index].length}`);
                         placementForm.resetInput();

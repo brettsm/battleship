@@ -14,18 +14,18 @@ export function createShell({
     statusBar.textContent = statusText;
     statusBar.setAttribute('role', 'status');
     statusBar.setAttribute('aria-live', 'polite');
-    classes.shellItem.forEach(c => statusBar.classList.add(c));
+    for (let c of classes.shellItem) statusBar.classList.add(c);
 
     const playerBoard = document.createElement('div');
     playerBoard.id = ids.playerBoard;
     playerBoard.setAttribute('aria-label', 'Player Board');
-    classes.shellItem.forEach(c => playerBoard.classList.add(c));
+    for (let c of classes.shellItem) playerBoard.classList.add(c);
 
     const playerPanel = document.createElement('div');
     playerPanel.id = ids.playerPanel;
     playerPanel.setAttribute('aria-label', 'Player Panel');
-    classes.shellItem.forEach(c => playerPanel.classList.add(c));
-
+    for (let c of classes.shellItem) playerPanel.classList.add(c);
+    
 
     const setStatus = (msg) => {
         statusBar.textContent = msg;

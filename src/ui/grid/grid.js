@@ -14,8 +14,12 @@ export function createGrid({
     for (let row = 0; row < size; row++) {
         for (let col = 0; col < size; col++) {
             const gridCell = document.createElement('div');
-            if (name === 'miss')
+            if (name === 'miss') {
                 gridCell.id = `m${row}-${col}`;
+                gridCell.addEventListener('click', () => {
+                    console.log(gridCell.id);
+                });
+            }
             else
                 gridCell.id = `p${row}-${col}`;
             for (let c of classes.gridCell) gridCell.classList.add(c);

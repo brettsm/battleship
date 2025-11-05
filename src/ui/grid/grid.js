@@ -34,12 +34,22 @@ export function createGrid({
 
     const paintCellGrey = ({ row, col }) => {
         const id = `p${row}-${col}`;
-        console.log(id);
         const cell = document.getElementById(id);
         cell.style.backgroundColor = 'grey';
     }
 
-    const paintCellRed = ({})
+    const paintCellRed = ({ row, col }) => {
+        if (name === 'miss') {
+            const id = `m${row}-${col}`;
+            const cell = document.getElementById(id);
+            cell.style.backgroundColor = 'red';
+        } else {
+            const id = `p${row}-${col}`;
+            const cell = document.getElementById(id);
+            cell.style.backgroundColor = 'red';
+        }
+        
+    }
 
-    return { gridContainer, paintCellGrey };
+    return { gridContainer, paintCellGrey, paintCellRed };
 }

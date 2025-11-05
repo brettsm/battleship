@@ -20,7 +20,7 @@ export class GameController {
 
         this.playerBoard = createPlayerBoard();
 
-        this.shell.playerBoard.appendChild(this.playerBoard.missBoard);
+        //this.shell.playerBoard.appendChild(this.playerBoard.missBoard);
         this.shell.playerBoard.appendChild(this.playerBoard.placementBoard);
         
 
@@ -62,7 +62,7 @@ export class GameController {
     _startGame() {
         this.#state = 'inPlay';
         console.log('game started');
-        
+        this.shell.playerBoard.replaceChildren(this.playerBoard.missBoard, this.playerBoard.placementBoard);
     }
 
 

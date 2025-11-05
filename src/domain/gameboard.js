@@ -55,8 +55,10 @@ export class Gameboard {
         if (this.isOccupied({ x: x, y: y })) {
             this.#placed.get(key({ x: x, y: y })).hit();
             this.#hits.add(key({ x: x, y: y }));
+            return true;
         } else {
             this.#misses.add(key({ x: x, y: y}));
+            return false;
         }
     }
 

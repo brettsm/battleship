@@ -39,10 +39,10 @@ export function createPlayerBoard({
         }
     }
 
-    const displayIncomingAttack = ({ col, row }) => {
-
+    const displayIncomingHit = ({ col, row }) => {
+        placementGridObj.paintCellRed({ row: row, col:col });
     }
 
-    return{ missBoard, placementBoard, displayShip };
+    return{ missBoard, placementBoard, displayShip, displayIncomingHit };
 
 }

@@ -8,6 +8,7 @@ export function createGrid({
         gridContainer: ['grid-container']
     },
 } = {}, size = 10) {
+    let resolveClick;
     const gridContainer = document.createElement('div');
     for (let c of classes.gridContainer) gridContainer.classList.add(c);
     gridContainer.style.height = `${BOARD_HEIGHT}px`;
@@ -17,7 +18,10 @@ export function createGrid({
             if (name === 'miss') {
                 gridCell.id = `m${row}-${col}`;
                 gridCell.addEventListener('click', () => {
-                    console.log(gridCell.id);
+                    if (resolveClick) {
+                        resolveClick({row, col});
+                        resolveClick = null;
+                    }
                 });
             }
             else
@@ -51,5 +55,15 @@ export function createGrid({
         
     }
 
-    return { gridContainer, paintCellGrey, paintCellRed };
+    const paintCellWhite = ({ row, col }) => {
+        const id = `m${row}-${col}`;
+        const cell = document.getElementById(id);
+        cell.style.backgroundColor = 'white';
+    }
+
+    const waitForCellClick = () => new Promise(res => { resolveClick = res; });
+    
+
+
+    return { gridContainer, paintCellGrey, paintCellRed, waitForCellClick, paintCellWhite };
 }

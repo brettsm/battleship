@@ -43,6 +43,16 @@ export function createPlayerBoard({
         placementGridObj.paintCellRed({ row: row, col:col });
     }
 
-    return{ missBoard, placementBoard, displayShip, displayIncomingHit };
+    const displayOutgoingHit = ({ col, row }) => {
+        missGridObj.paintCellRed({ row: row, col: col});
+    }
+
+    const displayOutgoingMiss = ({ col, row }) => {
+        missGridObj.paintCellWhite({ row: row, col: col });
+    }
+
+    const waitForAttackCoords = () => missGridObj.waitForCellClick();
+
+    return{ missBoard, placementBoard, displayShip, displayIncomingHit, waitForAttackCoords, displayOutgoingHit, displayOutgoingMiss };
 
 }

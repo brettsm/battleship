@@ -6,6 +6,7 @@ import { Ship } from "../domain/ship.js"
 import { createStartForm } from '../ui/forms/startForm.js';
 import { createPlacementForm } from '../ui/forms/placementForm.js';
 import { createPlayerBoard } from '../ui/playerBoard.js';
+import { createStatsPanel } from "../ui/statsPanel/statsPanel.js";
 
 export class GameController {
     #userPlayer
@@ -59,10 +60,36 @@ export class GameController {
             setTimeout(1000, this._startGame());
     }
 
-    _startGame() {
+    async _startGame() {
         this.#state = 'inPlay';
-        console.log('game started');
         this.shell.playerBoard.replaceChildren(this.playerBoard.missBoard, this.playerBoard.placementBoard);
+        const statsPanelObj = createStatsPanel();
+        this.shell.replacePanel(statsPanelObj.statsPanel);
+        while (!this._gameIsOver()) {
+            if (this.#current === this.#computerPlayer) {
+                const row = Math.floor(this.rng() * 9);
+                const col = Math.floor(this.rng() * 9);
+                if (this.#other.receiveAttack({ x: col, y: row })) {
+                    this.playerBoard.displayIncomingHit({ col, row });
+                }
+            } else {
+                const { row, col } = await this.playerBoard.waitForAttackCoords();
+                if (this.#other.receiveAttack({ x: col, y: row })) {
+                    this.playerBoard.displayOutgoingHit({ col, row });
+                } else {
+                    this.playerBoard.displayOutgoingMiss({ col, row });
+                }
+            }
+
+            const temp = this.#current;
+            this.#current = this.#other;
+            this.#other = temp;
+        }
+
+        if (this._playerWon()) 
+            this.shell.setStatus('You win!');
+        else
+            this.shell.setStatus('You lose :(');
     }
 
 
@@ -73,6 +100,10 @@ export class GameController {
     
     _gameIsOver() {
         return this.#userPlayer.allSunk() || this.#computerPlayer.allSunk();
+    }
+
+    _playerWon() {
+        return this.#computerPlayer.allSunk();
     }
 
     _placeComputerShips() {
@@ -97,8 +128,9 @@ export class GameController {
                     const {x, y, dir} = this._parseCoords(coordText);
                     const ship = new Ship(SHIP_TYPES[index].id);
 
+                    // TODO: need to standardize x, y => col, row
                     this.#userPlayer.placeShip(ship, {x, y}, dir);
-                    this.playerBoard.displayShip(ship, {x,y}, dir);
+                    this.playerBoard.displayShip(ship, {col: x, row: y }, dir);
                     if (++index < SHIP_TYPES.length) {
                         placementForm.updatePlacementMessage(`Place ${SHIP_TYPES[index].name}, length: ${SHIP_TYPES[index].length}`);
                         placementForm.resetInput();

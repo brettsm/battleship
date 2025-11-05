@@ -30,11 +30,16 @@ export function createGrid({
         }
     }
 
-    const paintCellGrey = (row, col) => {
-        const id = `p${col}-${row}`;
+    // format is row-col (really y-x)
+
+    const paintCellGrey = ({ row, col }) => {
+        const id = `p${row}-${col}`;
+        console.log(id);
         const cell = document.getElementById(id);
         cell.style.backgroundColor = 'grey';
     }
+
+    const paintCellRed = ({})
 
     return { gridContainer, paintCellGrey };
 }

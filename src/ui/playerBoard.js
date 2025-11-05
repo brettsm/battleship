@@ -20,6 +20,23 @@ export function createPlayerBoard({
     
     // TODO: add row and column markers (A-J, 1-9)
 
-    return{ missBoard, placementBoard };
+    // {x, y} represents start coordinates
+    const displayShip = (ship, { x, y }, dir) => {
+        let xi = x, yi = y;
+
+        if (dir.toUpperCase() === 'H') {
+            for (let i = 0; i < ship.length; i++) {
+                placementGridObj.paintCellGrey(xi++, y);
+            }
+        }
+
+        if (dir.toUpperCase() === 'V') {
+            for (let i = 0; i < ship.length; i++) {
+                placementGridObj.paintCellGrey(x, yi++);
+            }
+        }
+    }
+
+    return{ missBoard, placementBoard, displayShip };
 
 }

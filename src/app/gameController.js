@@ -22,7 +22,6 @@ export class GameController {
 
         this.shell.playerBoard.appendChild(this.playerBoard.missBoard);
         this.shell.playerBoard.appendChild(this.playerBoard.placementBoard);
-
         
 
         appRoot.append(
@@ -31,7 +30,6 @@ export class GameController {
             shell.playerPanel
         );
         
-
     }
 
     init() {
@@ -76,6 +74,7 @@ export class GameController {
     _gameIsOver() {
         return this.#userPlayer.allSunk() || this.#computerPlayer.allSunk();
     }
+
     _placeComputerShips() {
         this.#computerPlayer.randomizeFleet();
     }
@@ -87,6 +86,7 @@ export class GameController {
     }
 
     async _userPlacementPhase() {
+        this.shell.setStatus('Deploy your fleet...');
         // needs to return a promise so we can use await
         let index = 0;
 
@@ -98,7 +98,7 @@ export class GameController {
                     const ship = new Ship(SHIP_TYPES[index].id);
 
                     this.#userPlayer.placeShip(ship, {x, y}, dir);
-                    // TODO: this.playerBoard.placeShip(ship, {x, y}, dir);
+                    this.playerBoard.displayShip(ship, {x,y}, dir);
                     if (++index < SHIP_TYPES.length) {
                         placementForm.updatePlacementMessage(`Place ${SHIP_TYPES[index].name}, length: ${SHIP_TYPES[index].length}`);
                         placementForm.resetInput();

@@ -18,7 +18,7 @@ export class Player {
     }
 
     receiveAttack({ x, y }) {
-        this.#board.receiveAttack({ x: x, y: y });
+        return this.#board.receiveAttack({ x: x, y: y });
     }
 
     placeShip(ship, { x, y }, dir = 'h') {

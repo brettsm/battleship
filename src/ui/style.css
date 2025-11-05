@@ -63,7 +63,7 @@ html, body { height: 100%; margin: 0; }
 }
 
 .grid-border {
-    outline: 1px solid grey;
+    outline: 1px solid whitesmoke;
 }
 
 .in-shadowed {

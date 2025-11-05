@@ -54,6 +54,7 @@ html, body { height: 100%; margin: 0; }
     flex: 1;
     min-width: 436px;
     min-height: 436px;
+    max-height: 436px;
 }
 
 .grid-container {

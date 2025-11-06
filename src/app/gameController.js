@@ -7,6 +7,7 @@ import { createStartForm } from '../ui/forms/startForm.js';
 import { createPlacementForm } from '../ui/forms/placementForm.js';
 import { createPlayerBoard } from '../ui/playerBoard.js';
 import { createStatsPanel } from "../ui/statsPanel/statsPanel.js";
+import { createEndGamePanel } from "../ui/endGamePanel.js";
 
 export class GameController {
     #userPlayer
@@ -14,6 +15,7 @@ export class GameController {
     #current
     #other
     #state
+
     constructor({ appRoot, rng = Math.random }) {
         const shell = createShell({ statusText: 'Enter your name to begin' });
         this.shell = shell;
@@ -21,7 +23,6 @@ export class GameController {
 
         this.playerBoard = createPlayerBoard();
 
-        //this.shell.playerBoard.appendChild(this.playerBoard.missBoard);
         this.shell.playerBoard.appendChild(this.playerBoard.placementBoard);
         
 
@@ -34,11 +35,12 @@ export class GameController {
     }
 
     init() {
+        this.playerBoard = createPlayerBoard();
+    this.shell.playerBoard.replaceChildren(this.playerBoard.placementBoard);
+
         const startForm = createStartForm({}, (playerName) => {
             this.#userPlayer = new Player(new Gameboard(), playerName);
             this.#computerPlayer = new Player(new Gameboard(), 'Computer');
-
-            // TODO: display the user's board
 
             this._performStartupSequence();
         }).startForm;
@@ -57,7 +59,7 @@ export class GameController {
 
             this.shell.setStatus(message);
             
-            setTimeout(1000, this._startGame());
+            setTimeout(() =>this._startGame(), 1000);
     }
 
     async _startGame() {
@@ -67,8 +69,8 @@ export class GameController {
         this.shell.replacePanel(statsPanelObj.statsPanel);
         while (!this._gameIsOver()) {
             if (this.#current === this.#computerPlayer) {
-                const row = Math.floor(this.rng() * 9);
-                const col = Math.floor(this.rng() * 9);
+                const row = Math.floor(this.rng() * 10);
+                const col = Math.floor(this.rng() * 10);
                 if (this.#other.receiveAttack({ x: col, y: row })) {
                     this.playerBoard.displayIncomingHit({ col, row });
                 }
@@ -90,6 +92,9 @@ export class GameController {
             this.shell.setStatus('You win!');
         else
             this.shell.setStatus('You lose :(');
+
+        this.shell.replacePanel(
+            createEndGamePanel(this._playerWon, () => this.init()).panelContainer);
     }
 
 

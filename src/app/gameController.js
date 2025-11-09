@@ -36,7 +36,12 @@ export class GameController {
 
     init() {
         this.playerBoard = createPlayerBoard();
-    this.shell.playerBoard.replaceChildren(this.playerBoard.placementBoard);
+        this.shell.playerBoard.replaceChildren(this.playerBoard.placementBoard);
+        setTimeout(() => {
+            this.playerBoard.placementBoard.classList.add('visible');
+        }, 0);
+        
+        
 
         const startForm = createStartForm({}, (playerName) => {
             this.#userPlayer = new Player(new Gameboard(), playerName);
@@ -64,7 +69,13 @@ export class GameController {
 
     async _startGame() {
         this.#state = 'inPlay';
+        this.playerBoard.placementBoard.classList.remove('visible');
         this.shell.playerBoard.replaceChildren(this.playerBoard.missBoard, this.playerBoard.placementBoard);
+        setTimeout(() => {
+            this.playerBoard.missBoard.classList.add('visible')
+            this.playerBoard.placementBoard.classList.add('visible');
+        }, 0);
+
         const statsPanelObj = createStatsPanel();
         this.shell.replacePanel(statsPanelObj.statsPanel);
         while (!this._gameIsOver()) {

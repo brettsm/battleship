@@ -50,11 +50,13 @@ html, body { height: 100%; margin: 0; }
 
 #miss-board,
 #placement-board {
+    opacity: 0;
     background-color: lightblue;
     flex: 1;
     min-width: 436px;
     min-height: 436px;
     max-height: 436px;
+    transition: opacity 1s ease;
 }
 
 .grid-container {
@@ -67,8 +69,13 @@ html, body { height: 100%; margin: 0; }
     outline: 1px solid whitesmoke;
 }
 
+#miss-board.visible,
+#placement-board.visible {
+    opacity: 1;
+}
+
 .in-shadowed {
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 button {
